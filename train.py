@@ -1,6 +1,6 @@
 import torch
 import torch.optim as optim
-from tensorboardX import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 import numpy as np
 import os
 import argparse

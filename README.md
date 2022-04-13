@@ -30,7 +30,7 @@ conda activate mesh_funcspace
 Next, compile the extension modules.
 You can do this via
 ```
-python setup.py build_ext --inplace
+CXX=gcc python setup.py build_ext --inplace
 ```
 
 To compile the dmc extension, you have to have a cuda enabled device set up.
