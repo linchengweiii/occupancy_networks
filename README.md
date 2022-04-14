@@ -24,7 +24,7 @@ The simplest way to do so, is to use [anaconda](https://www.anaconda.com/).
 You can create an anaconda environment called `mesh_funcspace` using
 ```
 conda env create -f environment.yaml
-conda activate mesh_funcspace
+conda activate occupancy_net
 ```
 
 Next, compile the extension modules.
