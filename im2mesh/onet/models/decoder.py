@@ -120,7 +120,7 @@ class VNDecoderCBatchNorm(nn.Module):
         batch_size, D, T = p.size()  # B*3*F
 
         ### preprocess p to be translation invarient
-        p -= p.mean(2).unsqueeze(2)
+        # p -= p.mean(2).unsqueeze(2)
 
         ### preprocess p to be rotation invariant
         p_norm = torch.linalg.norm(p, dim=1, keepdim=True)  # B*1*T
@@ -128,7 +128,7 @@ class VNDecoderCBatchNorm(nn.Module):
         c = c.reshape(batch_size, -1, 3).transpose(1, 2)  # B*3*F
 
         ### preprocess c to be translation invarient
-        c -= c.mean(2).unsqueeze(2)
+        # c -= c.mean(2).unsqueeze(2)
 
         c = c.unsqueeze(2)  # B*3*1*F
         p = p.unsqueeze(3)  # B*3*T*1
