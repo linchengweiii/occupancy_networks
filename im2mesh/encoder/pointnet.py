@@ -43,6 +43,9 @@ class VNResnetPointnet(nn.Module):
 
     def forward(self, p):
         batch_size, T, D = p.size()
+        ## Translation invariant
+        p_mean = p.mean(1).unsqueeze(1)
+        p = p - p_mean
 
         p = p.transpose(1, -1).unsqueeze(1)
 
