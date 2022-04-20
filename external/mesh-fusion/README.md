@@ -72,12 +72,12 @@ from [ModelNet](http://modelnet.cs.princeton.edu/).
 
 First, scale the models using:
 
-    python 1_scale.py --in_dir=examples/0_in/ --out_dir=examples/1_scaled/
+    python 1_scale.py --in_dir=examples/0_in/ --out_dir=examples/1_scaled/ --t_dir=examples/1_transform/
 
 Now the models can be rendered, per default, 100 views (uniformly sampled
 on a sphere) will be used:
 
-    2_fusion.py --mode=render --in_dir=examples/1_scaled/ --depth_dir=examples/2_depth/ --out_dir=examples/2_watertight/
+    python 2_fusion.py --mode=render --in_dir=examples/1_scaled/ --out_dir=examples/2_depth/
 
 The details of rendering can be controlled using the following options:
 
@@ -112,7 +112,7 @@ Essentially, this thickens the structures. In the code, the offset is computed a
 
 Now, fusion can be run using
 
-    python 2_fusion.py --mode=fuse --in_dir=examples/1_scaled/ --depth_dir=examples/2_depth/ --out_dir=examples/2_watertight/
+    python 2_fusion.py --mode=fuse --in_dir=examples/2_depth/ --out_dir=examples/2_watertight/ --t_dir=examples/1_transform
 
 For fusion, the resolution and the truncation factor are most importance.
 In practice, the truncation factor may be in the range of `[0, ..., 15]`;
