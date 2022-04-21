@@ -46,7 +46,7 @@ triangle_hash_module = Extension(
     sources=[
         'im2mesh/utils/libmesh/triangle_hash.pyx'
     ],
-    libraries=['m']  # Unix-like specific
+    libraries=['stdc++']  # Unix-like specific
 )
 
 # mise (efficient mesh extraction)
