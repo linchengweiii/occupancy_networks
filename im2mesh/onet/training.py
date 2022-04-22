@@ -163,6 +163,7 @@ class Trainer(BaseTrainer):
         # KL-divergence
         kl = dist.kl_divergence(q_z, self.model.p0_z).sum(dim=-1)
         loss = kl.mean()
+        print(loss.item())
 
         # General points
         logits = self.model.decode(p, z, c, **kwargs).logits

@@ -35,9 +35,19 @@ class VNResnetPointnet(nn.Module):
         self.actvn = vnn.LeakyReLU(hidden_dim//3, share_nonlinearity=False, negative_slope=0)
 
         if pooling == 'max':
-            self.pool = vnn.MaxPool(2*hidden_dim//3)
+            self.pool_pos = vnn.MaxPool(2*hidden_dim//3)
+            self.pool_0 = vnn.MaxPool(2*hidden_dim//3)
+            self.pool_1 = vnn.MaxPool(2*hidden_dim//3)
+            self.pool_2 = vnn.MaxPool(2*hidden_dim//3)
+            self.pool_3 = vnn.MaxPool(2*hidden_dim//3)
+            self.pool_4 = vnn.MaxPool(2*hidden_dim//3)
         elif pooling == 'mean':
-            self.pool = vnn.MeanPool()
+            self.pool_pos = vnn.MeanPool()
+            self.pool_0 = vnn.MeanPool()
+            self.pool_1 = vnn.MeanPool()
+            self.pool_2 = vnn.MeanPool()
+            self.pool_3 = vnn.MeanPool()
+            self.pool_4 = vnn.MeanPool()
 
         self.n_knn = 20
 
@@ -51,28 +61,28 @@ class VNResnetPointnet(nn.Module):
 
         net = vnn.util.get_graph_feature_cross(p, k=self.n_knn)
         net = self.fc_pos(net)
-        net = self.pool(net)
+        net = self.pool_pos(net)
 
         net = self.block_0(net)
-        pooled = self.pool(net, dim=3, keepdim=True).expand(net.size())
+        pooled = self.pool_0(net, dim=3, keepdim=True).expand(net.size())
         net = torch.cat([net, pooled], dim=1)
 
         net = self.block_1(net)
-        pooled = self.pool(net, dim=3, keepdim=True).expand(net.size())
+        pooled = self.pool_1(net, dim=3, keepdim=True).expand(net.size())
         net = torch.cat([net, pooled], dim=1)
 
         net = self.block_2(net)
-        pooled = self.pool(net, dim=3, keepdim=True).expand(net.size())
+        pooled = self.pool_2(net, dim=3, keepdim=True).expand(net.size())
         net = torch.cat([net, pooled], dim=1)
 
         net = self.block_3(net)
-        pooled = self.pool(net, dim=3, keepdim=True).expand(net.size())
+        pooled = self.pool_3(net, dim=3, keepdim=True).expand(net.size())
         net = torch.cat([net, pooled], dim=1)
 
         net = self.block_4(net)
 
         # Reduce to  B x F x 3
-        net = self.pool(net, dim=3)
+        net = self.pool_4(net, dim=3)
 
         c = self.fc_c(self.actvn(net))
 
