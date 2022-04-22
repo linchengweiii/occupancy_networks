@@ -55,11 +55,11 @@ for class in ${CLASSES[@]}; do
         BUILD_PATH_CLASS=$BUILD_PATH/$class/$split
 
         mkdir -p $BUILD_PATH_CLASS/1_scaled \
-                 $BUILD_PATH_CLASS/1_transfrom \
+                 $BUILD_PATH_CLASS/1_transform \
                  $BUILD_PATH_CLASS/2_depth \
                  $BUILD_PATH_CLASS/2_watertight \
-                 $BUILD_PATH_CLASS/4_points \
-                 $BUILD_PATH_CLASS/4_pointcloud \
+                 $BUILD_PATH_CLASS/points \
+                 $BUILD_PATH_CLASS/pointcloud \
                  $BUILD_PATH_CLASS/4_watertight_scaled \
 
         echo "Scaling meshes"
@@ -74,6 +74,8 @@ for class in ${CLASSES[@]}; do
           --in_dir $BUILD_PATH_CLASS/1_scaled \
           --out_dir $BUILD_PATH_CLASS/2_depth
 
+        rm -rf  $BUILD_PATH_CLASS/1_scaled
+
         echo "Produce watertight meshes"
         python $MESHFUSION_PATH/2_fusion.py \
           --mode fuse \
@@ -81,14 +83,20 @@ for class in ${CLASSES[@]}; do
           --out_dir $BUILD_PATH_CLASS/2_watertight \
           --t_dir $BUILD_PATH_CLASS/1_transform
 
+        rm -rf  $BUILD_PATH_CLASS/1_transform \
+                $BUILD_PATH_CLASS/2_depth
+
         echo "Process watertight meshes"
         python sample_mesh.py $BUILD_PATH_CLASS/2_watertight \
             --resize \
             --bbox_in_folder $INPUT_PATH_CLASS \
-            --pointcloud_folder $BUILD_PATH_CLASS/4_pointcloud \
-            --points_folder $BUILD_PATH_CLASS/4_points \
+            --pointcloud_folder $BUILD_PATH_CLASS/pointcloud \
+            --points_folder $BUILD_PATH_CLASS/points \
             --mesh_folder $BUILD_PATH_CLASS/4_watertight_scaled \
             --packbits --float16
+
+        rm -rf $BUILD_PATH_CLASS/2_watertight \
+               $BUILD_PATH_CLASS/4_watertight_scaled
 
     done
 done
