@@ -25,7 +25,7 @@ keyboard
 lamp
 laptop
 mantel
-moniter
+monitor
 night_stand
 person
 piano
